@@ -1,4 +1,4 @@
-# Very short description of the package
+# Laravel HTTP mail driver
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/skyracer2012/http-mail-driver.svg?style=flat-square)](https://packagist.org/packages/skyracer2012/http-mail-driver)
 [![Total Downloads](https://img.shields.io/packagist/dt/skyracer2012/http-mail-driver.svg?style=flat-square)](https://packagist.org/packages/skyracer2012/http-mail-driver)
