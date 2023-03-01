@@ -3,8 +3,8 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/skyracer2012/http-mail-driver.svg?style=flat-square)](https://packagist.org/packages/skyracer2012/http-mail-driver)
 [![Total Downloads](https://img.shields.io/packagist/dt/skyracer2012/http-mail-driver.svg?style=flat-square)](https://packagist.org/packages/skyracer2012/http-mail-driver)
 
-This package gives your the ability to send emails via HTTP requests. This is useful for sending emails via Mailchannels and their Cloudflare Workers partnerships.
-
+This package gives your the ability to send emails via HTTP requests. This is useful for sending emails via Mailchannels and their Cloudflare Workers partnerships.  
+Note: There is currently no support for attachments due to Mailchannels not supporting them via their transactional message api.
 ## Installation
 
 You can install the package via composer:
