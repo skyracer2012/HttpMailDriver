@@ -2,9 +2,8 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/skyracer2012/http-mail-driver.svg?style=flat-square)](https://packagist.org/packages/skyracer2012/http-mail-driver)
 [![Total Downloads](https://img.shields.io/packagist/dt/skyracer2012/http-mail-driver.svg?style=flat-square)](https://packagist.org/packages/skyracer2012/http-mail-driver)
-![GitHub Actions](https://github.com/skyracer2012/http-mail-driver/actions/workflows/main.yml/badge.svg)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+This package gives your the ability to send emails via HTTP requests. This is useful for sending emails via Mailchannels and their Cloudflare Workers partnerships.
 
 ## Installation
 
@@ -14,29 +13,33 @@ You can install the package via composer:
 composer require skyracer2012/http-mail-driver
 ```
 
-## Usage
+After that, please set the value `HTTP_MAIL_URL` in your `.env` file to the URL of your HTTP Mail endpoint.
+You should also define the `HTTP_MAIL_KEY` in your `.env` file which will be used to authenticate your requests in the Authorization header.
+
+```dotenv
+HTTP_MAIL_URL=https://example.com
+HTTP_MAIL_KEY=secret
+```
+
+Next should should add the `http` entry to your `config/mail.php` file under the `mailers` array.
 
 ```php
-// Usage description here
+'mailers' => [
+    // other mailers
+    'http' => [
+        'transport' => 'http',
+        'url' => env('HTTP_MAIL_URL'),
+        'key' => env('HTTP_MAIL_KEY'),
+    ],
+],
 ```
 
-### Testing
+Now you can set the default mailer to `http` in your `.env` file.
 
-```bash
-composer test
+```dotenv
+MAIL_MAILER=http
 ```
 
-### Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-### Security
-
-If you discover any security related issues, please email noreply@skyracer2012.com instead of using the issue tracker.
 
 ## Credits
 

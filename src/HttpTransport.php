@@ -29,7 +29,7 @@ class HttpTransport extends AbstractTransport
         // Change this to the format your API accepts
         return [
             'headers' => [
-                'Authorization' => 'Bearer ' . $this->key,
+                'Authorization' => $this->key,
                 'Accept'        => 'application/json',
             ],
             'json' => [
