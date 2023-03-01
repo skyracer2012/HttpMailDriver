@@ -46,6 +46,9 @@ This package was made to work in combination with the Cloudflare Worker Mailchan
 To use this, deploy a worker with the code of this gist:
 https://gist.github.com/skyracer2012/54e85953162f24ac8f8e0a0fa747f1e3
 
+TODO:
+* dkim keys for mailchannels
+
 ## Credits
 
 -   [skyracer2012](https://github.com/skyracer2012)
