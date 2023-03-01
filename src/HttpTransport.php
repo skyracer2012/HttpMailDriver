@@ -5,6 +5,7 @@ namespace Skyracer2012\HttpMailDriver;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mime\Address;
@@ -19,6 +20,8 @@ class HttpTransport extends AbstractTransport
 
     public function __construct(string $url, string $key)
     {
+        parent::__construct(new EventDispatcher());
+
         $this->key = $key;
         $this->url = $url;
         $this->client = new Client();
@@ -26,18 +29,35 @@ class HttpTransport extends AbstractTransport
 
     protected function getPayload(Email $email): array
     {
-        // Change this to the format your API accepts
+        //Mailchannels Format as in https://api.mailchannels.net/tx/v1/documentation
         return [
             'headers' => [
                 'Authorization' => $this->key,
                 'Accept'        => 'application/json',
             ],
             'json' => [
-                'to' => $this->mapContactsToNameEmail($email->getTo()),
-                'cc' => $this->mapContactsToNameEmail($email->getCc()),
-                'bcc' => $this->mapContactsToNameEmail($email->getBcc()),
-                'message' => $email->getBody(),
                 'subject' => $email->getSubject(),
+                'personalizations' => [
+                    [
+                        'to' => $this->mapContactsToNameEmail($email->getTo()),
+                        'cc' => $this->mapContactsToNameEmail($email->getCc()),
+                        'bcc' => $this->mapContactsToNameEmail($email->getBcc()),
+                    ]
+                ],
+                'from' => [
+                    'name' => $email->getFrom()[0]->getName(),
+                    'email' => $email->getFrom()[0]->getAddress(),
+                ],
+                'content' => [
+                    [
+                        'type' => 'text/plain',
+                        'value' => $email->getTextBody(),
+                    ],
+                    [
+                        'type' => 'text/html',
+                        'value' => $email->getHtmlBody(),
+                    ]
+                ],
             ],
         ];
     }
@@ -48,10 +68,12 @@ class HttpTransport extends AbstractTransport
         if (empty($contacts)) {
             return [];
         }
-        foreach ($contacts as $address => $display) {
+        foreach ($contacts as $contact) {
+            if(!$contact instanceof Address)
+                continue;
             $formatted[] =  [
-                'name' => $display,
-                'email' => $address,
+                'name' => $contact->getName(),
+                'email' => $contact->getAddress()
             ];
         }
         return $formatted;
