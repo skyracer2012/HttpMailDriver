@@ -14,7 +14,7 @@ class HttpMailDriverServiceProvider extends ServiceProvider
     public function boot()
     {
         Mail::extend('http', function (array $config = []) {
-            return new HttpTransport(Arr::get($config, 'url'), Arr::get($config, 'key'));
+            return new HttpTransport(Arr::get($config, 'url'), Arr::get($config, 'key'), Arr::get($config, 'dkim_enabled'), Arr::get($config, 'dkim_domain'), Arr::get($config, 'dkim_selector'), Arr::get($config, 'dkim_private_key'));
         });
     }
 

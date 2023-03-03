@@ -17,19 +17,41 @@ class HttpTransport extends AbstractTransport
     protected Client $client;
     protected string $key;
     protected string $url;
+    protected bool $dkim_enabled;
+    protected string $dkim_domain;
+    protected string $dkim_selector;
+    protected string $dkim_private_key;
 
-    public function __construct(string $url, string $key)
+    public function __construct(string $url, string $key, bool $dkim_enabled, string $dkim_domain, string $dkim_selector, string $dkim_private_key)
     {
         parent::__construct(new EventDispatcher());
 
         $this->key = $key;
         $this->url = $url;
+        $this->dkim_enabled = $dkim_enabled;
+        $this->dkim_domain = $dkim_domain;
+        $this->dkim_selector = $dkim_selector;
+        $this->dkim_private_key = $dkim_private_key;
         $this->client = new Client();
     }
 
     protected function getPayload(Email $email): array
     {
         //Mailchannels Format as in https://api.mailchannels.net/tx/v1/documentation
+        $personalization = [
+            'to' => $this->mapContactsToNameEmail($email->getTo()),
+            'cc' => $this->mapContactsToNameEmail($email->getCc()),
+            'bcc' => $this->mapContactsToNameEmail($email->getBcc()),
+        ];
+
+        if($this->dkim_enabled)
+        {
+            $personalization['dkim_domain'] = $this->dkim_domain;
+            $personalization['dkim_selector'] = $this->dkim_selector;
+            $personalization['dkim_private_key'] = $this->dkim_private_key;
+        }
+
+
         return [
             'headers' => [
                 'Authorization' => $this->key,
@@ -38,11 +60,7 @@ class HttpTransport extends AbstractTransport
             'json' => [
                 'subject' => $email->getSubject(),
                 'personalizations' => [
-                    [
-                        'to' => $this->mapContactsToNameEmail($email->getTo()),
-                        'cc' => $this->mapContactsToNameEmail($email->getCc()),
-                        'bcc' => $this->mapContactsToNameEmail($email->getBcc()),
-                    ]
+                    $personalizations
                 ],
                 'from' => [
                     'name' => $email->getFrom()[0]->getName(),
