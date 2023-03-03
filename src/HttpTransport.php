@@ -60,7 +60,7 @@ class HttpTransport extends AbstractTransport
             'json' => [
                 'subject' => $email->getSubject(),
                 'personalizations' => [
-                    $personalizations
+                    $personalization
                 ],
                 'from' => [
                     'name' => $email->getFrom()[0]->getName(),
