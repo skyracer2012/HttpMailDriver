@@ -40,7 +40,7 @@ Next should should add the `http` entry to your `config/mail.php` file under the
         'url' => env('HTTP_MAIL_URL'),
         'key' => env('HTTP_MAIL_KEY'),
         //DKIM settings. Look at https://developers.cloudflare.com/pages/platform/functions/plugins/mailchannels/#dkim-support-for-mailchannels-api for more information
-        'dkim_enabled' => env('HTTP_MAIL_DKIM_ENABLED', false), //Wether to enable DKIM in the database
+        'dkim_enabled' => env('HTTP_MAIL_DKIM_ENABLED', false), //Whether to enable DKIM in the database
         'dkim_domain' => env('HTTP_MAIL_DKIM_DOMAIN'), //The domain you are sending the email from.
         'dkim_selector' => env('HTTP_MAIL_DKIM_SELECTOR'), //Specifies where to find the associated public key in your DNS records
         'dkim_private_key' => env('HTTP_MAIL_DKIM_PRIVATE_KEY'), //The base-64 encoded private key.
