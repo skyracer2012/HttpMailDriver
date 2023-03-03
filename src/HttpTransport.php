@@ -50,6 +50,24 @@ class HttpTransport extends AbstractTransport
             $personalization['dkim_selector'] = $this->dkim_selector;
             $personalization['dkim_private_key'] = $this->dkim_private_key;
         }
+        
+        $content = [];
+        
+        if($email->getTextBody())
+        {
+            $content[] = [
+                'type' => 'text/plain',
+                'value' => $email->getTextBody(),
+            ];
+        }
+        
+        if($email->getHtmlBody())
+        {
+            $content[] = [
+                'type' => 'text/html',
+                'value' => $email->getHtmlBody(),
+            ];
+        }
 
 
         return [
@@ -66,16 +84,7 @@ class HttpTransport extends AbstractTransport
                     'name' => $email->getFrom()[0]->getName(),
                     'email' => $email->getFrom()[0]->getAddress(),
                 ],
-                'content' => [
-                    [
-                        'type' => 'text/plain',
-                        'value' => $email->getTextBody(),
-                    ],
-                    [
-                        'type' => 'text/html',
-                        'value' => $email->getHtmlBody(),
-                    ]
-                ],
+                'content' => $content
             ],
         ];
     }
