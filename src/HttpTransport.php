@@ -18,11 +18,11 @@ class HttpTransport extends AbstractTransport
     protected string $key;
     protected string $url;
     protected bool $dkim_enabled;
-    protected string $dkim_domain;
-    protected string $dkim_selector;
-    protected string $dkim_private_key;
+    protected ?string $dkim_domain;
+    protected ?string $dkim_selector;
+    protected ?string $dkim_private_key;
 
-    public function __construct(string $url, string $key, bool $dkim_enabled, string $dkim_domain, string $dkim_selector, string $dkim_private_key)
+    public function __construct(string $url, string $key, bool $dkim_enabled, ?string $dkim_domain, ?string $dkim_selector, ?string $dkim_private_key)
     {
         parent::__construct(new EventDispatcher());
 
