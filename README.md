@@ -56,6 +56,8 @@ MAIL_MAILER=http
 
 ## Cloudflare Mailchannel integration
 
+> :warning: **Mailchannels now enforces Domain Lockdown™**: Please create DNS record according to [their help center article](https://support.mailchannels.com/hc/en-us/articles/16918954360845-Secure-your-domain-name-against-spoofing-with-Domain-Lockdown-)!
+
 This package was made to work in combination with the Cloudflare Worker Mailchannels partnership.
 To use this, deploy a worker with the code of this gist:
 https://gist.github.com/skyracer2012/54e85953162f24ac8f8e0a0fa747f1e3
